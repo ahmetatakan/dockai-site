@@ -1,11 +1,300 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const TITLE = "DockAI — AI-powered Docker Log Analysis";
+const TAGLINE =
+  "Analyze Docker logs with LLMs. Local (Ollama) or Cloud (OpenAI).";
+const PYPI = "https://pypi.org/project/dockai/";
+const GITHUB = "https://github.com/ahmetatakan/dockai";
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{TITLE}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={TAGLINE} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root{
+        --bg:#0b1220;--card:#11192a;--muted:#9db0ce;--border:#22304f;--brand:#4f8cff;
+      }
+      *{box-sizing:border-box}
+      body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:#fff}
+      a{color:inherit;text-decoration:none}
+      .wrap{max-width:1100px;margin:0 auto;padding:28px}
+      header{display:flex;justify-content:space-between;align-items:center}
+      nav a{opacity:.85;margin-left:16px}
+      nav a:hover{opacity:1}
+      .hero{margin:56px 0 28px; position:relative}
+      h1{font-size:44px;line-height:1.1;margin:0 0 12px}
+      /* gradient hero strip */
+      .hero::before{
+        content:"";
+        position:absolute;
+        left:-24px; right:-24px; top:-60px;
+        height:180px;
+        background:
+          radial-gradient(80% 140% at 10% 40%, #4f8cff33 0%, transparent 60%),
+          radial-gradient(60% 120% at 80% 30%, #13b5ec33 0%, transparent 60%),
+          linear-gradient(90deg, #0e1530, #172146);
+        filter: blur(14px);
+        opacity:.9;
+        border-radius:24px;
+        z-index:-1;
+      }
+      .brandrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+      .mark{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;
+        background:linear-gradient(135deg,#4f8cff,#13b5ec); box-shadow:0 6px 30px #4f8cff40 inset, 0 6px 20px #0b254880}
+      .mark svg{display:block}
+      .muted{color:var(--muted)}
+      .cta{display:flex;gap:12px;margin:18px 0 22px}
+      .btn{display:inline-flex;align-items:center;gap:8px;background:var(--brand);color:#fff;border:none;border-radius:12px;padding:12px 16px;font-weight:700}
+      .btn.secondary{background:transparent;border:1px solid var(--border);color:#cfe0ff}
+      .panel{background:#0f1730;border:1px solid var(--border);border-radius:14px;padding:14px}
+      .grid{display:grid;gap:16px}
+      @media (min-width:900px){.grid-3{grid-template-columns:repeat(3,1fr)}}
+      pre{margin:0;white-space:pre-wrap;font-family:ui-monospace,Menlo,Consolas,monospace}
+      .codebar{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+      .copy{cursor:pointer;border:1px solid var(--border);border-radius:10px;padding:8px 10px}
+      .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px}
+      footer{margin:40px 0;color:#7f93b7;font-size:13px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+      /* tiny terminal anim */
+      .term{min-height:84px}
+      .cursor{display:inline-block;width:10px;background:#9cc0ff;margin-left:2px;animation:blink 1s step-end infinite}
+      @keyframes blink{50%{background:transparent}}
+      .badges{display:flex;gap:8px;align-items:center;margin-top:8px}
+      /* showcase */
+      .showcase .two{display:grid;gap:16px}
+      @media(min-width:900px){.showcase .two{grid-template-columns:1.2fr 1fr}}
+      .termhdr{background:linear-gradient(90deg,#0e1530,#172146);border-bottom:1px solid var(--border);padding:10px 12px;color:#cfe0ff;font-size:13px}
+      .termblk{background:#0f1730;padding:12px}
+      .stats{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px}
+      .stat{display:flex;gap:10px;align-items:center;border:1px solid var(--border);border-radius:12px;padding:10px 12px;background:#0f1730}
+      .stat .ic{width:22px;text-align:center}
+      .label{font-size:12px;color:var(--muted)}
+      .val{font-weight:600}
+      .tip{margin-top:12px;color:var(--muted);font-size:13px;border-top:1px dashed var(--border);padding-top:10px}
+    </style>
+    <!-- Canonical & Icons -->
+    <link rel="canonical" href="https://dockai.pages.dev/" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+
+    <!-- OpenGraph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="DockAI — AI-powered Docker Log Analysis" />
+    <meta property="og:description" content="Analyze Docker logs with LLMs. Local (Ollama) or Cloud (OpenAI)." />
+    <meta property="og:url" content="https://dockai.pages.dev/" />
+    <meta property="og:image" content="https://dockai.pages.dev/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="DockAI — AI-powered Docker Log Analysis" />
+    <meta name="twitter:description" content="Analyze Docker logs with LLMs. Local (Ollama) or Cloud (OpenAI)." />
+    <meta name="twitter:image" content="https://dockai.pages.dev/og-image.png" />
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div style="opacity:.8">DockAI</div>
+        <nav>
+          <a href="#features">Features</a>
+          <a href="#install">Install</a>
+          <a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href={PYPI} target="_blank" rel="noopener noreferrer">PyPI</a>
+        </nav>
+      </header>
+
+      <section class="hero">
+        <div class="brandrow">
+          <span class="mark" aria-hidden="true">
+            <!-- DockAI logomark v2: "D" in a container + signal -->
+            <svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" aria-label="DockAI logo" role="img">
+              <!-- container outline -->
+              <rect x="3.5" y="3.5" width="21" height="21" rx="6" fill="none" stroke="white" stroke-opacity="0.95" stroke-width="1.4"/>
+              <!-- stylized D -->
+              <path d="M9 9h4.8a5.2 5.2 0 0 1 0 10.4H9V9z" fill="white" fill-opacity="0.95"/>
+              <!-- signal pulse (AI insight) -->
+              <path d="M16.6 11.2c.9-.9 2.3-.9 3.2 0M16.6 14c1.7-1.7 4.5-1.7 6.2 0" stroke="#0b1220" stroke-width="1.4" stroke-linecap="round" stroke-opacity="0.9"/>
+            </svg>
+          </span>
+          <h1 style="margin:0">{TITLE}</h1>
+        </div>
+        <p class="muted">{TAGLINE}</p>
+
+        <div class="cta">
+          <a class="btn" href={PYPI} target="_blank" rel="noopener noreferrer">pip install</a>
+          <a class="btn secondary" href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+
+        <div class="badges">
+          <a href={PYPI} target="_blank" rel="noopener noreferrer">
+            <img src="https://img.shields.io/pypi/v/dockai.svg" alt="PyPI version" />
+          </a>
+          <a href={PYPI} target="_blank" rel="noopener noreferrer">
+            <img src="https://img.shields.io/pypi/dm/dockai.svg?label=downloads" alt="PyPI downloads" />
+          </a>
+        </div>
+
+        <!-- terminal-like animated lines -->
+        <div class="panel term" id="term"></div>
+
+        <!-- install code with copy -->
+        <div class="panel" style="margin-top:14px">
+          <pre id="code">pip install dockai
+dockai analyze my-container --since 15m --tail 3000</pre>
+          <div class="codebar">
+            <span class="muted">Quickstart</span>
+            <button class="copy" id="copyBtn">Copy</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" class="grid grid-3" style="margin-top:28px">
+        <div class="card">
+          <h3 style="margin:0 0 8px">🤖 AI Log Analysis</h3>
+          <p class="muted">LLM-driven summaries & root-cause fixes.</p>
+        </div>
+        <div class="card">
+          <h3 style="margin:0 0 8px">📈 Performance</h3>
+          <p class="muted">Instant CPU & Mem stats (`--instant-perf`), windowed with `--perf`.</p>
+        </div>
+        <div class="card">
+          <h3 style="margin:0 0 8px">☁️ Local & Cloud</h3>
+          <p class="muted">Ollama (<code>qwen2.5:7b-instruct</code>) or OpenAI (<code>gpt-4o-mini</code>).</p>
+        </div>
+      </section>
+
+      <section id="install" style="margin-top:36px">
+        <div class="card">
+          <h3 style="margin:0 0 8px">Install</h3>
+          <pre>pip install dockai</pre>
+          <p class="muted" style="margin-top:8px">
+            Then run: <code>dockai analyze &lt;container&gt; --since 1h --tail 10000</code>
+          </p>
+        </div>
+      </section>
+
+      <!-- Visual Showcase (no external images, pure HTML/CSS) -->
+      <section id="showcase" class="showcase">
+        <h3 style="margin:16px 0 12px">What DockAI shows you</h3>
+        <div class="two">
+          <!-- Left: terminal-like sample -->
+          <div class="card" style="padding:0;overflow:hidden">
+            <div class="termhdr">/var/log/app.log</div>
+            <div class="termblk">
+<pre>$ dockai analyze web --since 15m --tail 3000
+• reading logs …
+• AI reasoning …
+→ Summary: DB connection refused.
+   Fix: open 5432/tcp and restart service.
+✔ Perf: CPU p95=4.1%  Mem p95=1.3%</pre>
+            </div>
+          </div>
+
+          <!-- Right: status & metrics -->
+          <div class="card">
+            <h4 style="margin:0 0 8px">Live Status</h4>
+            <div class="stats">
+              <div class="stat">
+                <div class="ic">🟢</div>
+                <div>
+                  <div class="label">Container</div>
+                  <div class="val">running</div>
+                </div>
+              </div>
+              <div class="stat">
+                <div class="ic">🧠</div>
+                <div>
+                  <div class="label">Model</div>
+                  <div class="val">Ollama qwen2.5:7b-instruct</div>
+                </div>
+              </div>
+              <div class="stat">
+                <div class="ic">📈</div>
+                <div>
+                  <div class="label">CPU p95</div>
+                  <div class="val">4.1%</div>
+                </div>
+              </div>
+              <div class="stat">
+                <div class="ic">💾</div>
+                <div>
+                  <div class="label">Mem p95</div>
+                  <div class="val">1.3%</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tip">
+              Tip: Use <code>--instant-perf</code> for quick one-shot metrics,
+              or <code>--perf 60</code> to sample a time window.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="install" style="margin-top:36px">
+        <div class="card">
+          <h3 style="margin:0 0 8px">Install</h3>
+          <pre>pip install dockai</pre>
+          <p class="muted" style="margin-top:8px">
+            Then run: <code>dockai analyze &lt;container&gt; --since 1h --tail 10000</code>
+          </p>
+        </div>
+      </section>
+
+      <footer>
+        <div>© 2025 <strong>DockAI</strong> • AI DevOps Toolkit — Apache-2.0</div>
+        <div>
+          <a href={PYPI} target="_blank" rel="noopener noreferrer">PyPI</a> · <a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      // copy to clipboard
+      const btn = document.getElementById('copyBtn');
+      btn?.addEventListener('click', () => {
+        const text = document.getElementById('code')?.innerText || '';
+        navigator.clipboard.writeText(text);
+        btn.textContent = 'Copied ✓';
+        setTimeout(()=>btn.textContent='Copy', 1200);
+      });
+
+      // tiny terminal animation
+      const lines = [
+        '$ dockai analyze web --since 15m --tail 3000',
+        '• reading logs …',
+        '• AI reasoning …',
+        '→ Summary: DB connection refused. Fix: open 5432/tcp & restart service.'
+      ];
+      const term = document.getElementById('term');
+      let i=0;
+      function typeNext(){
+        if(!term) return;
+        if(i >= lines.length){ return; }
+        const row = document.createElement('div');
+        term.appendChild(row);
+        let j=0;
+        const tick = setInterval(()=>{
+          row.textContent = lines[i].slice(0, j++);
+          if(j > lines[i].length){ 
+            clearInterval(tick); i++; 
+            if(i===lines.length){ 
+              const c = document.createElement('span'); c.className='cursor'; row.appendChild(c);
+            } else { setTimeout(typeNext, 250); }
+          }
+        }, 18);
+      }
+      typeNext();
+    </script>
+    <!-- Cloudflare Web Analytics (set your token in data-cf-beacon) -->
+    <!-- <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"YOUR_TOKEN"}'></script> -->
+  </body>
+</html>
