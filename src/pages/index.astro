@@ -46,6 +46,7 @@ const GITHUB = "https://github.com/ahmetatakan/dockai";
         z-index:-1;
       }
       .brandrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+      .microtag{font-size:13px;color:var(--muted);opacity:.9;margin:4px 0 6px;font-style:italic}
       .mark{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;
         background:linear-gradient(135deg,#4f8cff,#13b5ec); box-shadow:0 6px 30px #4f8cff40 inset, 0 6px 20px #0b254880}
       .mark svg{display:block}
@@ -113,18 +114,11 @@ const GITHUB = "https://github.com/ahmetatakan/dockai";
       <section class="hero">
         <div class="brandrow">
           <span class="mark" aria-hidden="true">
-            <!-- DockAI logomark v2: "D" in a container + signal -->
-            <svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" aria-label="DockAI logo" role="img">
-              <!-- container outline -->
-              <rect x="3.5" y="3.5" width="21" height="21" rx="6" fill="none" stroke="white" stroke-opacity="0.95" stroke-width="1.4"/>
-              <!-- stylized D -->
-              <path d="M9 9h4.8a5.2 5.2 0 0 1 0 10.4H9V9z" fill="white" fill-opacity="0.95"/>
-              <!-- signal pulse (AI insight) -->
-              <path d="M16.6 11.2c.9-.9 2.3-.9 3.2 0M16.6 14c1.7-1.7 4.5-1.7 6.2 0" stroke="#0b1220" stroke-width="1.4" stroke-linecap="round" stroke-opacity="0.9"/>
-            </svg>
+            <img src="/dockai-logo.png" alt="DockAI logo" width="44" height="44" style="border-radius:12px" />
           </span>
           <h1 style="margin:0">{TITLE}</h1>
         </div>
+        <div class="microtag">Deep insights from Docker’s depths.</div>
         <p class="muted">{TAGLINE}</p>
 
         <div class="cta">
@@ -250,7 +244,7 @@ dockai analyze my-container --since 15m --tail 3000</pre>
       </section>
 
       <footer>
-        <div>© 2025 <strong>DockAI</strong> • AI DevOps Toolkit — Apache-2.0</div>
+        <div>© 2025 DockAI • All rights reserved — Open core licensed under Apache-2.0.</div>
         <div>
           <a href={PYPI} target="_blank" rel="noopener noreferrer">PyPI</a> · <a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>
         </div>
