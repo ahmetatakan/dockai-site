@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import mdx from '@astrojs/mdx';
 
 // Disable dev toolbar for cleaner footer
 export default defineConfig({
@@ -7,5 +8,5 @@ export default defineConfig({
   devToolbar: {
     enabled: false
   },
-  integrations: [],
+  integrations: [mdx()],
 });

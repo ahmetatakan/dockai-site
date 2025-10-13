@@ -1,0 +1,204 @@
+---
+layout: /src/layouts/DocsLayout.astro
+title: DockAI Documentation
+---
+
+# 🧠 DockAI Documentation
+
+Welcome to the official **DockAI** documentation — an AI-powered CLI tool that analyzes Docker logs intelligently.
+
+DockAI helps developers, DevOps engineers, and teams **diagnose issues faster**, summarize logs, and understand container behavior using **Large Language Models (LLMs)**.
+
+---
+
+## 🚀 Getting Started
+
+DockAI is available via PyPI and can be installed with:
+
+```bash
+pip install dockai
+```
+
+Once installed, you can analyze any running container logs:
+
+```bash
+dockai analyze <container-name> --since 15m --tail 3000
+```
+
+For performance metrics (CPU & memory):
+
+```bash
+dockai analyze <container-name> --perf 60
+```
+
+---
+
+## 🧩 CLI Commands Overview
+
+DockAI provides a comprehensive set of command-line commands to interact with the tool efficiently. Below is an overview of the main commands, their usage, and examples.
+
+### `analyze`
+
+Analyze logs from a specified Docker container.
+
+**Usage:**
+
+```bash
+dockai analyze <container-name> [options]
+```
+
+**Options:**
+
+- `--since <duration>`: Analyze logs since the specified time (e.g., 15m, 1h).
+- `--tail <number>`: Number of log lines to fetch from the end.
+- `--perf <seconds>`: Collect CPU and memory performance metrics for the given duration.
+
+**Example:**
+
+```bash
+dockai analyze my_container --since 30m --tail 5000
+dockai analyze my_container --perf 60
+```
+
+---
+
+### `list`
+
+List all running Docker containers or available analysis plugins.
+
+**Usage:**
+
+```bash
+dockai list 
+```
+
+---
+
+### `config`
+
+Manage DockAI configuration settings.
+
+**Subcommands:**
+
+- `set <KEY> <VALUE>`: Set a configuration key.
+- `get <KEY>`: Retrieve the value of a configuration key.
+- `list`: List all current configuration settings.
+
+**Examples:**
+
+```bash
+dockai config set DOCKAI_MODE cloud
+dockai config get DOCKAI_MODE
+dockai config list
+```
+
+---
+
+### `help`
+
+Display help information about DockAI commands.
+
+**Usage:**
+
+```bash
+dockai --help
+```
+
+**Example:**
+
+```bash
+dockai config --help
+```
+
+---
+
+### Quick Reference Table
+
+| Command                 | Description                              | Example                                  |
+|-------------------------|------------------------------------------|------------------------------------------|
+| `dockai analyze`        | Analyze container logs                   | `dockai analyze my_container --since 15m` |
+| `dockai list`           | List running Docker containers           | `dockai list containers`                   |
+| `dockai config set`     | Set a configuration key                   | `dockai config set DOCKAI_MODE cloud`     |
+| `dockai config get`     | Get a configuration key                   | `dockai config get DOCKAI_MODE`           |
+| `dockai config list`    | List all configuration keys               | `dockai config list`                       |
+| `dockai --help`           | Show help for commands                    | `dockai help analyze`                      |
+
+---
+
+## 🔌 Plugin System
+
+DockAI features a **modular plugin architecture**, allowing you to extend functionality without modifying the core system.
+
+Plugins can hook into lifecycle events such as:
+
+- `on_start` — before analysis begins
+- `on_logs_fetched` — after logs are collected
+- `on_ai_response` — after AI model produces output
+- `on_finish` — when analysis completes
+
+
+Example plugin structure:
+
+```python
+# ~/.dockai/plugins/demo/plugin.py
+class DemoPlugin:
+    def on_finish(self, ctx, result):
+        print("[demo] saved usage stats")
+```
+
+---
+
+## ⚙️ Configuration
+
+DockAI reads configuration from a simple JSON file:
+
+```bash
+~/.dockai_config.json
+```
+
+Example configuration:
+
+```json
+{
+  "DOCKAI_MODE": "local",
+  "DOCKAI_OLLAMA_MODEL": "qwen2.5:7b-instruct"
+}
+```
+
+You can update settings with:
+
+```bash
+dockai config set DOCKAI_MODE cloud
+dockai config list
+```
+
+---
+
+## 📊 Telemetry (Local Analytics)
+
+DockAI includes a local telemetry system powered by SQLite — no data ever leaves your machine.
+
+Each analysis records:
+- Container name
+- Duration and latency
+- CPU and memory statistics
+- AI model used
+
+You can inspect telemetry data manually via:
+
+```bash
+sqlite3 ~/.dockai/usage.db
+SELECT * FROM usage;
+```
+
+---
+
+## 📚 Learn More
+
+- 🌐 [Website](https://dockai.pages.dev)
+- 🐍 [PyPI](https://pypi.org/project/dockai)
+- 💻 [GitHub](https://github.com/ahmetatakan/dockai)
+
+---
+
+> 📘 **Note:** This documentation is a work in progress. More pages such as `Getting Started`, `Telemetry`, and `Plugin Development` will be added soon.

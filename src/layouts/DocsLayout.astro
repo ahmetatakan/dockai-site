@@ -1,0 +1,27 @@
+---
+const { title } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{title ? `${title} | DockAI Docs` : 'DockAI Documentation'}</title>
+  </head>
+  <body style="font-family: system-ui; line-height: 1.6; margin: 2rem auto; max-width: 800px; padding: 0 1rem;">
+    <header style="border-bottom: 1px solid #ddd; margin-bottom: 1rem; padding-bottom: 0.5rem;">
+      <h1>📘 DockAI Docs</h1>
+      <nav>
+        <a href="/" style="margin-right: 1rem;">Home</a>
+        <a href="/docs">Docs</a>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer style="border-top: 1px solid #ddd; margin-top: 2rem; padding-top: 1rem; font-size: 0.9rem; color: #777;">
+      © {new Date().getFullYear()} DockAI
+    </footer>
+  </body>
+</html>
