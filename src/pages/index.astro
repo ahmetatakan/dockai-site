@@ -133,7 +133,15 @@ const GITHUB = "https://github.com/ahmetatakan/dockai";
             <img src="https://img.shields.io/pypi/v/dockai.svg" alt="PyPI version" />
           </a>
           <a href={PYPI} target="_blank" rel="noopener noreferrer">
-            <img src="https://static.pepy.tech/badge/dockai" alt="total downloads" />
+           <!-- Toplam (mirror dahil) -->
+<img src="https://static.pepy.tech/badge/dockai?v=1" alt="Total downloads (incl. mirrors)" />
+
+<!-- Son 30 gün (no mirrors) -->
+<img src="https://img.shields.io/badge/dynamic/json
+?url=https://pypistats.org/api/packages/dockai/recent
+&query=$.data.last_month
+&label=PyPI%20(last%2030d%2C%20no%20mirrors)
+&color=blue&cacheSeconds=7200" alt="PyPI last month (no mirrors)" />
           </a>
         </div>
 
